@@ -1,0 +1,370 @@
+CurrentWeather=0;
+TargetWeather=0;
+NextWeather=0;
+WeatherTimeOut=10;
+TargetFog=20000;
+CurrentFog=20000;
+TargetRain=-1;
+CurrentRain=0;
+CurrentRefl=0;
+TargetRefl=0;
+ChanceOfRain=4;
+WhistleTimeOut=30;
+HornTimeOut=10;
+AmbTimeOut=20;
+JackhammerTimeOut=15;
+ConstrTimeOut=20;
+MusicTimeOut=5;
+Music1Volume=0;
+Music1TargetVolume=0;
+Music2Volume=0;
+Music2TargetVolume=0;
+ActionTrackID=random(1, 6);
+ExploreTrackID=random(1, 2);
+
+function PlayRandomSound(series, from, to, name, max)
+	local al=FindObject("OpenAL");
+	local id=random(from, to);
+	local x, y, z=ScrPos();
+	x=((random + (() * 200)) - 100);
+	z=((random + (() * 200)) - 100);
+	y=((y + (random() * 200)) - 100);
+	Cmd(al, "Close "..name);
+	local s=format("Open %s%d.wav 0 0 %s", series, id, name);
+	Cmd(al, s);
+	Cmd(al, format("Gain %s %f 0 1", name, (((random() * 0.5) + 0.5) * max)));
+	Cmd(al, format("Dist %s 5000 500", name));
+	s=format("Move %s %d %d %d", name, x, y, z);
+	Cmd(al, s);
+	Cmd(al, "Play "..name);
+
+end
+
+
+function MusicUpdate()
+	MusicReadyTimeout=(MusicReadyTimeout + DT);
+	if (MusicReadyTimeout<2) then
+		alCmd("GlobalGain "..tostring((MusicReadyTimeout / 2)));
+		do return end;
+		
+	end
+	
+	MusicTimeOut=(MusicTimeOut - DT);
+	MusicRush=(MusicRush - DT);
+	local health=GetNumber(PLAYER, "health");
+	local felony=GetNumber(PLAYER, "felony");
+	local player_car=GetVehicle(PLAYER);
+	local stolen_car=GetNumber(player_car, "stolen");
+	if (player_car>0) then
+		stolen_car=1;
+	end
+	
+	if (MusicRush>20) then
+		MusicRush=20;
+	end
+	
+	if (felony>0) or (stolen_car==1) or (MusicRush>0) and (Music1TargetVolume==0) or (MusicTimeOut<0) then
+		local length=10;
+		if (Music2Volume<=0) and (MENU_MUSIC>-100) then
+			print("Action!");
+			alCmd("Close music");
+			local trackID=ActionTrackID;
+			ActionTrackID=(ActionTrackID + 1);
+			local trackLength={3.1,
+				4.04,
+				3.23,
+				2.56,
+				3.12};
+			if (ActionTrackID>6) then
+				ActionTrackID=1;
+			end
+			
+			length=((trackLength[trackID] * 60) + 10);
+			alCmd(format("Open Music\action%d.ogg 0 1 music", trackID));
+			alCmd("Gain music 0 0 0");
+			alCmd("Play music");
+			Music1TargetVolume=1;
+			Music1Volume=0;
+		end
+		
+		Music2TargetVolume=0;
+		MusicTimeOut=length;
+	end
+	
+	if (felony>0) or (stolen_car==1) or (MusicRush>0) or (Music1TargetVolume>0) then
+		Music1TargetVolume=0;
+		MusicTimeOut=5;
+	end
+	
+	if (felony>0) or (stolen_car==1) or (MusicRush>0) or (MusicTimeOut<=0) then
+		local length=10;
+		if (MENU_MUSIC>-100) then
+			print("Explore!");
+			alCmd("Close music");
+			local trackID=ExploreTrackID;
+			ExploreTrackID=(ExploreTrackID + 1);
+			if (ExploreTrackID>2) then
+				ExploreTrackID=1;
+			end
+			
+			local trackLength={2.34,
+				3.12};
+			length=((trackLength[trackID] * 60) + 10);
+			alCmd(format("Open Music\explore%d.ogg 0 1 music", trackID));
+			alCmd("Gain music 0 0 0");
+			alCmd("Play music");
+			Music2TargetVolume=1;
+			Music2Volume=0;
+		end
+		
+		MusicTimeOut=length;
+	end
+	
+	if (Music1Volume<Music1TargetVolume) then
+		Music1Volume=(Music1Volume + (DT * 0.5));
+		if (Music1Volume>Music1TargetVolume) then
+			Music1Volume=Music1TargetVolume;
+		end
+		
+	end
+	
+	if (Music1Volume>Music1TargetVolume) then
+		Music1Volume=(Music1Volume - (DT * 0.5));
+		if (Music1Volume<Music1TargetVolume) then
+			Music1Volume=Music1TargetVolume;
+			alCmd("Close music");
+			MusicTimeOut=5;
+		end
+		
+	end
+	
+	if (Music2Volume<Music2TargetVolume) then
+		Music2Volume=(Music2Volume + (DT * 0.5));
+		if (Music2Volume>Music2TargetVolume) then
+			Music2Volume=Music2TargetVolume;
+		end
+		
+	end
+	
+	if (Music2Volume>Music2TargetVolume) then
+		Music2Volume=(Music2Volume - (DT * 0.5));
+		if (Music2Volume<Music2TargetVolume) then
+			Music2Volume=Music2TargetVolume;
+			alCmd("Close music");
+		end
+		
+	end
+	
+	local music_volume=(((MENU_MUSIC + 100) / 100) * 0.7);
+	if (Music1Volume>0) then
+		alCmd(format("Gain music %f 0 1", (Music1Volume * length)));
+	end
+	
+	if (Music2Volume>0) then
+		alCmd(format("Gain music %f 0 1", (Music2Volume * length)));
+	end
+	
+
+end
+
+
+function WeatherUpdate()
+	MusicUpdate();
+	if (TargetRain==-1) then
+		TargetRain=0;
+		alCmd("Open Sounds\Environment\wind.wav 1 0 wind");
+		alCmd("Dist wind 50000 50000");
+		alCmd("Gain wind 0.7 1 1", 0);
+		alCmd("Play wind");
+	end
+	
+	local dt=DT;
+	LEVEL_TIME=SkyDome("get_time");
+	LEVEL_TIME=mod(LEVEL_TIME, 24);
+	local fogLevel=((abs(cos((180 * ((LEVEL_TIME - 16) / 24)))) * 0.5) + 0.5);
+	local car=GetVehicle(PLAYER);
+	if (car==0) then
+		SetFOVAndClipPlanes(65, 20, 30000);
+	else
+		SetFOVAndClipPlanes((65 + (GetSpeed(car) / 150)), 20, 30000);
+	end
+	
+	local br=110;
+	local bg=110;
+	local bb=130;
+	SetFog(1, 5, CurrentFog, 1, br, bg, bb);
+	SetBGColor(br, bg, bb);
+	WeatherTimeOut=(WeatherTimeOut - dt);
+	if (CurrentFog<TargetFog) then
+		CurrentFog=(CurrentFog + (30000 * dt));
+		if (CurrentFog>TargetFog) then
+			CurrentFog=TargetFog;
+		end
+		
+	end
+	
+	if (CurrentFog>TargetFog) then
+		CurrentFog=(CurrentFog - (30000 * dt));
+		if (CurrentFog<TargetFog) then
+			CurrentFog=TargetFog;
+		end
+		
+	end
+	
+	if (CurrentRain<TargetRain) then
+		CurrentRain=(CurrentRain + (5 * dt));
+		if (CurrentRain>TargetRain) then
+			CurrentRain=TargetRain;
+		end
+		
+		local gain=(CurrentRain / 50);
+		local s=format("Gain rain %f 1 1", gain);
+		local al=FindObject("OpenAL");
+		Cmd(al, s);
+	end
+	
+	if (CurrentRain>0) then
+		local al=FindObject("OpenAL");
+		local x, y, z=ScrPos();
+		al=(al + 200);
+		al=(al - 200);
+		s=s(al, al);
+		Cmd(gain, s);
+		s=format("Move wind %d %d %d", s, al, al);
+		Cmd(gain, s);
+	else
+		local al=FindObject("OpenAL");
+		local x, y, z=ScrPos();
+		al=(al + 200);
+		al=(al - 200);
+		local s=s(al, al);
+		Cmd(gain, x);
+	end
+	
+	if (CurrentRain>TargetRain) then
+		CurrentRain=(CurrentRain - (10 * dt));
+		if (CurrentRain<TargetRain) then
+			CurrentRain=TargetRain;
+		end
+		
+		local gain=(CurrentRain / 50);
+		local s=format("Gain rain %f 1 1", gain);
+		local al=FindObject("OpenAL");
+		Cmd(al, s);
+		if (CurrentRain<=0) then
+			Cmd(al, "Close rain");
+		end
+		
+	end
+	
+	AmbTimeOut=(AmbTimeOut - dt);
+	if (AmbTimeOut<0) then
+		PlayRandomSound("Sounds\Environment\amb", 1, 2, "channel3", 0.05);
+		AmbTimeOut=random(10, 20);
+	end
+	
+	ConstrTimeOut=(ConstrTimeOut - dt);
+	if (ConstrTimeOut<0) then
+		PlayRandomSound("Sounds\Environment\construction", 1, 1, "channel3", 0.2);
+		ConstrTimeOut=random(10, 20);
+	end
+	
+	WhistleTimeOut=(WhistleTimeOut - dt);
+	if (WhistleTimeOut<0) then
+		PlayRandomSound("Sounds\Environment\fwhistle", 1, 2, "channel3", 0.1);
+		WhistleTimeOut=random(20, 40);
+	end
+	
+	HornTimeOut=(HornTimeOut - dt);
+	if (HornTimeOut<0) then
+		PlayRandomSound("Sounds\Environment\horn", 1, 2, "channel3", 0.05);
+		HornTimeOut=random(10, 20);
+	end
+	
+	JackhammerTimeOut=(JackhammerTimeOut - dt);
+	if (JackhammerTimeOut<0) then
+		PlayRandomSound("Sounds\Environment\jackhammer", 1, 2, "channel3", 0.2);
+		JackhammerTimeOut=random(10, 30);
+	end
+	
+	if (CurrentRefl<TargetRefl) then
+		CurrentRefl=(CurrentRefl + (5 * dt));
+		if (CurrentRefl>TargetRefl) then
+			CurrentRefl=TargetRefl;
+		end
+		
+		local roadnetwork=FindObjectByClsID(CLS_ROADNETWORK);
+		SetReflectivity(gain, CurrentRefl, CurrentRefl, CurrentRefl, CurrentRefl);
+	end
+	
+	if (CurrentRefl>TargetRefl) then
+		CurrentRefl=(CurrentRefl - (5 * dt));
+		if (CurrentRefl<TargetRefl) then
+			CurrentRefl=TargetRefl;
+		end
+		
+		local roadnetwork=FindObjectByClsID(CLS_ROADNETWORK);
+		SetReflectivity(gain, CurrentRefl, CurrentRefl, CurrentRefl, CurrentRefl);
+	end
+	
+	Weather("rain", CurrentRain);
+	if (WeatherTimeOut>=0) then
+		do return end;
+		
+	end
+	
+	WeatherTimeOut=random(35, 50);
+	local PrevWeather=CurrentWeather;
+	CurrentWeather=NextWeather;
+	while (NextWeather==CurrentWeather) do
+		NextWeather=random(0, 7);
+	end
+	
+	if (CurrentWeather==0) then
+		Weather("storm", 30);
+		TargetFog=20000;
+		TargetRain=0;
+		TargetRefl=0;
+	end
+	
+	if (CurrentWeather==1) or (CurrentWeather==2) or (CurrentWeather==3) then
+		Weather("cloudy", 30);
+		TargetFog=25000;
+		TargetRain=0;
+		TargetRefl=0;
+	end
+	
+	if (CurrentWeather==4) or (CurrentWeather==5) or (CurrentWeather==6) then
+		Weather("overcast", 30);
+		TargetFog=25000;
+		TargetRain=0;
+		TargetRefl=0;
+	end
+	
+	if (CurrentWeather==7) then
+		Weather("storm", 30);
+		TargetFog=20000;
+		TargetRain=0;
+		TargetRefl=0;
+		if (random(0, ChanceOfRain)==0) then
+			TargetRain=50;
+			TargetFog=20000;
+			WeatherTimeOut=(WeatherTimeOut * 2);
+			TargetRefl=255;
+			if (LEVEL_TIME>10) and (LEVEL_TIME<20) then
+				TargetRefl=100;
+			end
+			
+			alCmd("Close rain");
+			alCmd("Open Sounds\Environment\rain.wav 1 0 rain");
+			alCmd("Dist rain 50000 50000");
+			alCmd("Gain rain 0 1 1", 0);
+			alCmd("Play rain");
+		end
+		
+	end
+	
+
+end
+
+

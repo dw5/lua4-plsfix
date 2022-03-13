@@ -1,0 +1,855 @@
+function shotflare_Update(this)
+	SetSupportPauseMode(this, 1);
+	if (GetRenderable(this)==0) then
+		do return end;
+		
+	end
+	
+	local sx, sy, sz=GetScale(this);
+	local x, y, z=();
+	y(z, (100 * sx), 200, 200, 50, 2);
+	if (IsPaused()==1) then
+		do return end;
+		
+	end
+	
+	local time=GetNumber(this, "time");
+	time=(time + 1);
+	SetNumber(this, "time", time);
+	if (time>2) then
+		SetRenderable(this, 0);
+	end
+	
+	SetScale(this, (sx / 2), (sy / 2), (sz / 2));
+
+end
+
+
+function GetBloodSplatter()
+	return "sprite\blood"..random(1, 2);
+	
+
+end
+
+
+function GetBloodSplatterGreen()
+	return "sprite\bloodgreen"..random(1, 2);
+	
+
+end
+
+
+function BulletShot(this, dispersion, damage, autoaimangle)
+	local px, py, pz=GetHelper(this, "Point01");
+	local px1, py1, pz1=0(0, -1);
+	py1=0;
+	local obj, ax, ay, az=this((), px1, py1, pz1, autoaimangle);
+	if (obj~=0) then
+		local cx, cy, cz=();
+		cy=(cy + 100);
+		px1, py1, pz1=cz(px, py, pz);
+		px1, py1, pz1=Normalize(px1, py1, pz1);
+		print("aimed! ", GetName(obj));
+	end
+	
+	local disp_x=(random() - 0.5);
+	local disp_y=(random() - 0.5);
+	local disp_z=(random() - 0.5);
+	cx, cy, cz=Normalize(cx, cy, cz);
+	cx, cy, cz=MulVector(cx, cy, cz, dispersion);
+	px1, py1, pz1=AddVectors(px1, py1, pz1, cx, cy, cz);
+	px1, py1, pz1=Normalize(px1, py1, pz1);
+	px1, py1, pz1=MulVector(px1, py1, pz1, 5000);
+	px1, py1, pz1=AddVectors(px, py, pz, px1, py1, pz1);
+	local deadguy, cx, cy, cz=IntersectLineClsID(GetParent(this), CLS_CHARACTER, px, py, pz, px1, py1, pz1);
+	if (disp_x~=0) then
+		disp_x(());
+		local splatter=FindObjectByClsID(CLS_SPLATTERSYSTEM);
+		local dx, dy, dz=TransDir(this, 0, 0, -600);
+		if ("health"()>0) then
+			local cmd=format("Damage %d %d %d %d", damage, px, py, pz);
+			Cmd(disp_x, dx);
+			local gunowner=GetParent(this);
+			local felony=GetNumber(dy, "felony");
+			if (GetNumber(disp_x, "badguy")==0) then
+				dz=(dz + ((10 * damage) / 100));
+			end
+			
+			if (GetName(disp_x)=="models\\cop") then
+				dz=(dz + ((20 * damage) / 100));
+			end
+			
+			SetNumber(dy, "felony", dz);
+			if (GetNumber(disp_x, "health")<=0) then
+				CP_resetAcceleration(disp_x);
+				CP_accelerateAll(disp_x, (cy * 2), 700, (splatter * 2));
+			end
+			
+		end
+		
+		id=InsertParticleSource("ParticleSystems\\bloodExp.psf", disp_y, disp_z, deadguy, 0, 0, 0, 1, 1, 1);
+		if (BLOOD==1) then
+			SetColor(id, 150, 0, 0, 100);
+			AddSplash(cx, GetBloodSplatter(), random(100, 150), random(100, 150), disp_y, disp_z, deadguy, cy, -400, splatter);
+		else
+			SetColor(id, 0, 255, 0, 100);
+			AddSplash(cx, GetBloodSplatterGreen(), random(100, 150), random(100, 150), disp_y, disp_z, deadguy, cy, -400, splatter);
+		end
+		
+		do return end;
+		
+	end
+	
+	local deadcar, cx, cy, cz, triID=IntersectLineClsID(GetParent(this), CLS_CAR, px, py, pz, px1, py1, pz1);
+	if (cx~=0) then
+		()(" ", tostring, dx, ());
+		car_Damage(cx, cy, cz, splatter, 20, 0, 100, 0, 5, 1);
+		local gunowner=GetParent(this);
+		local driver=GetDriver(cx);
+		if (dz>0) and (GetNumber(dz, "badguy")~=1) or (GetNumber(dy, "copnear")==1) then
+			local felony=GetNumber(dy, "felony");
+			cmd=(cmd + 10);
+			if (GetName(GetDriver(cx))=="models\\cop") then
+				cmd=(cmd + 20);
+			end
+			
+			SetNumber(dy, "felony", cmd);
+		end
+		
+		do return end;
+		
+	end
+	
+	local roadnetwork=FindObjectByClsID(CLS_ROADNETWORK);
+	local hx, hy, hz, dx, dy, dz=IntersectLine(dy, px, py, pz, px1, py1, pz1);
+	if (dz~=px1) or (cmd~=py1) or (gunowner~=pz1) then
+		local splatter=();
+		if (deadcar>0.99) then
+			felony=(felony + 0.1);
+			felony, deadcar, cx=cx();
+		end
+		
+		felony, deadcar, cx=MulVector(felony, deadcar, cx, 100);
+		AddSplash(cy, "sprite\bullethole", 20, 20, (dz - (felony / 2)), (cmd - (deadcar / 2)), (gunowner - (cx / 2)), felony, deadcar, cx);
+		id=InsertParticleSource("ParticleSystems\\surfacehit.psf", dz, cmd, gunowner, 0, 0, 0, 2, 2, 2);
+		SetTraceParams(id, 1, "sprite\trace", 4, 2);
+		if (random(0, 3)==0) then
+			PlaySound3D(dz, cmd, gunowner, "Ricco\BRicco0", 6, "channel1");
+		end
+		
+	end
+	
+
+end
+
+
+function HitTool(this, damage)
+	local px, py, pz=GetHelper(this, "Point01");
+	local dx, dy, dz=0(0, -50);
+	dy=0;
+	local px1, py1, pz1=py(pz, dx, dy, dz);
+	px, py, pz=py(pz, -dx, -dy, -dz);
+	local deadguy, cx, cy, cz, triID=IntersectLineClsID(GetParent(this), CLS_CHARACTER, px, py, pz, px1, py1, pz1);
+	if (deadguy~=0) then
+		"name"(());
+		local splatter=FindObjectByClsID(CLS_SPLATTERSYSTEM);
+		dx, dy, dz=TransDir(this, 0, 0, -600);
+		if (GetNumber(deadguy, "health")>0) then
+			local cmd=format("Damage %d %d %d %d", damage, px, py, pz);
+			Cmd(deadguy, cmd);
+			local gunowner=GetParent(this);
+			local felony=GetNumber(gunowner, "felony");
+			felony=(felony + 5);
+			SetNumber(gunowner, "felony", felony);
+			if (GetNumber(deadguy, "health")<=0) then
+				CP_resetAcceleration(deadguy);
+				CP_accelerateAll(deadguy, (dx * 2), 700, (dz * 2));
+			end
+			
+		end
+		
+		id=InsertParticleSource("ParticleSystems\\bloodExp.psf", cx, cy, cz, 0, 0, 0, 2, 2, 2);
+		if (BLOOD==1) then
+			SetColor(id, 150, 0, 0, 100);
+			AddSplash(splatter, GetBloodSplatter(), random(100, 150), random(100, 150), cx, cy, cz, dx, -400, dz);
+			AddSplash(splatter, GetBloodSplatter(), random(150, 250), random(150, 250), cx, cy, cz, (-dx / 2), -800, (-dz / 2));
+		else
+			SetColor(id, 0, 255, 0, 100);
+			AddSplash(splatter, GetBloodSplatterGreen(), random(100, 150), random(100, 150), cx, cy, cz, dx, -400, dz);
+			AddSplash(splatter, GetBloodSplatterGreen(), random(150, 250), random(150, 250), cx, cy, cz, (-dx / 2), -800, (-dz / 2));
+		end
+		
+		do return end;
+		
+	end
+	
+	local roadnetwork=FindObjectByClsID(CLS_ROADNETWORK);
+	local hx, hy, hz, dx, dy, dz, triID=IntersectLine(splatter, px, py, pz, px1, py1, pz1);
+	if (hz~=-1) then
+		local splatter=();
+		if (hx>0.99) then
+			roadnetwork=(roadnetwork + 0.1);
+			roadnetwork, hx, hy=();
+		end
+		
+		roadnetwork, hx, hy=MulVector(roadnetwork, hx, hy, 100);
+		id=InsertParticleSource("ParticleSystems\\surfacehit.psf", cmd, gunowner, felony, 0, 0, 0, 2, 2, 2);
+		if (random(0, 3)==0) then
+			PlaySound3D(cmd, gunowner, felony, "Ricco\BRicco0", 6, "channel1");
+		end
+		
+	end
+	
+
+end
+
+
+function HitHandLeg(this, name, damage, offx, offy, offz)
+	local px, py, pz=GetBoneCenter(this, name);
+	local px1, py1, pz1=py(pz, offx, offy, offz);
+	px, py, pz=py(pz, -offx, -offy, -offz);
+	py1=py;
+	local dx, dy, dz=SubVectors(px1, py1, pz1, px, py, pz);
+	dx, dy, dz=dy(dz);
+	local deadguy, cx, cy, cz=IntersectLineClsID(this, CLS_CHARACTER, px, (py - 50), pz, px1, (py1 - 50), pz1);
+	if (deadguy~=0) then
+		deadguy("name", ());
+		PlaySound3D(px, py, pz, "karate\hit", 1, "channel2");
+		if (GetNumber(deadguy, "health")>0) then
+			local cmd=format("Damage %d %d %d %d", damage, px, py, pz);
+			Cmd(deadguy, cmd);
+			local felony=GetNumber(this, "felony");
+			if (GetNumber(deadguy, "badguy")==0) then
+				felony=(felony + 5);
+			end
+			
+			SetNumber(this, "felony", felony);
+			if (GetNumber(deadguy, "health")<=0) then
+				CP_resetAcceleration(deadguy);
+				CP_accelerateAll(deadguy, (-offx * 8), 500, (-offz * 8));
+			end
+			
+		end
+		
+		local splatter=FindObjectByClsID(CLS_SPLATTERSYSTEM);
+		id=InsertParticleSource("ParticleSystems\\bloodExp.psf", cx, cy, cz, 0, 0, 0, 1, 1, 1);
+		if (BLOOD==1) then
+			SetColor(id, 150, 0, 0, 100);
+			AddSplash(cmd, GetBloodSplatter(), random(100, 150), random(100, 150), cx, cy, cz, (dx * -600), -400, (dz * -600));
+		else
+			SetColor(id, 0, 255, 0, 100);
+			AddSplash(cmd, GetBloodSplatterGreen(), random(100, 150), random(100, 150), cx, cy, cz, (dx * -600), -400, (dz * -600));
+		end
+		
+		do return 1 end;
+		
+	end
+	
+	local roadnetwork=FindObjectByClsID(CLS_ROADNETWORK);
+	local hx, hy, hz, dx, dy, dz, triID=IntersectLine(cmd, px, py, pz, px1, py1, pz1);
+	if (dx~=-1) then
+		id=0(0, 2, 2, 2);
+		SetColor(id, 200, 50, 50, 100);
+		PlaySound3D(felony, splatter, roadnetwork, "karate\hit", 1, "channel2");
+		local health=GetNumber(this, "health");
+		if (dy>1) then
+			SetNumber(this, "health", (dy - 1));
+		else
+			local cmd=format("Damage %d %d %d %d", 2, felony, splatter, roadnetwork);
+			Cmd(this, dz);
+		end
+		
+		do return 1 end;
+		
+	end
+	
+	return 0;
+	
+
+end
+
+
+function uzi_Update(this, name, damage, sx, sy, sz)
+	if (GetRenderable(this)==0) then
+		do return end;
+		
+	end
+	
+	local parent=GetParent(this);
+	if not (parent) then
+		do return end;
+		
+	end
+	
+	local prev_frame=GetPrevFrame(parent);
+	local frame=GetFrame(parent);
+	local anim=GetAnimation(parent);
+	if (anim~="shotuzi") and (anim~="shot") then
+		do return end;
+		
+	end
+	
+	if (prev_frame>=17) or (frame<17) then
+		if (prev_frame>=14) and (prev_frame<=17) or (frame<14) or (frame<17) then
+			print("shooting!");
+			local ammo=GetNumber(this, "ammo");
+			if (ammo>0) then
+				BulletShot(this, GetNumber(this, "dispersion"), GetNumber(this, "damage"), GetNumber(this, "autoaimangle"));
+				ammo=(ammo - 1);
+				SetNumber(this, "ammo", ammo);
+				if (SameObjects(PLAYER, parent)==1) then
+					SetActiveItem("thumbnail\icon2", tostring(ammo));
+				end
+				
+				local id=FindObject(GetString(parent, "SHOTFLARE"));
+				if (id==0) then
+					id=InsertParticleSource("ParticleSystems\\shotflare.psf");
+					SetName(id, GetString(parent, "SHOTFLARE"));
+					SetUpdateFunction(id, "shotflare_Update");
+				end
+				
+				local px, py, pz=GetHelper(this, "Point01");
+				0(0, 0);
+				SetScale(id, 1, 1, 1);
+				SetPosition(id, 0, 0, 0);
+				CopyTransform(id, this);
+				SetRenderable(id, 1);
+				SetNumber(id, "time", 0);
+				SetEulerRotation(id, (PI / 2), 0, 0, 1);
+				SetPosition(id, px, py, pz);
+				SetScale(id, ((random() * 0.5) + 1.5), ((random() * 0.5) + 1.5), ((random() * 0.5) + 1.5));
+				local al=FindObject("OpenAL");
+				Cmd(al, "Open Sounds\Weapon\uzi.wav 0 0 uzi");
+				Cmd(al, "Dist uzi 5000 5000");
+				local s=format("Move uzi %d %d %d", px, py, pz);
+				Cmd(al, s);
+				Cmd(al, "Play uzi");
+			end
+			
+		end
+		
+		SetNumber(this, "prev_frame", frame);
+
+end
+
+
+function pistol_Update(this)
+	if (GetRenderable(this)==0) then
+		do return end;
+		
+	end
+	
+	local parent=GetParent(this);
+	if not (parent) then
+		do return end;
+		
+	end
+	
+	local prev_frame=GetNumber(this, "prev_frame");
+	local frame=GetFrame(parent);
+	SetNumber(this, "prev_frame", frame);
+	if (GetAnimation(parent)~="shot") then
+		do return end;
+		
+	end
+	
+	if (prev_frame<16) and (frame>=16) then
+		local ammo=GetNumber(this, "ammo");
+		if (ammo>0) then
+			BulletShot(this, GetNumber(this, "dispersion"), GetNumber(this, "damage"), GetNumber(this, "autoaimangle"));
+			ammo=(ammo - 1);
+			SetNumber(this, "ammo", ammo);
+			if (SameObjects(PLAYER, parent)==1) then
+				SetActiveItem("thumbnail\icon1", tostring(ammo));
+			end
+			
+			local id=FindObject(GetString(parent, "SHOTFLARE"));
+			if (id==0) then
+				id=InsertParticleSource("ParticleSystems\\shotflare.psf");
+				SetName(id, GetString(parent, "SHOTFLARE"));
+				SetUpdateFunction(id, "shotflare_Update");
+			end
+			
+			local px, py, pz=GetHelper(this, "Point01");
+			0(0, 0);
+			SetScale(id, 1, 1, 1);
+			SetPosition(id, 0, 0, 0);
+			CopyTransform(id, this);
+			SetRenderable(id, 1);
+			SetNumber(id, "time", 0);
+			SetEulerRotation(id, (PI / 2), 0, 0, 1);
+			SetPosition(id, px, py, pz);
+			SetScale(id, ((random() * 0.5) + 1.5), ((random() * 0.5) + 1.5), ((random() * 0.5) + 1.5));
+			local al=FindObject("OpenAL");
+			Cmd(al, "Open Sounds\Weapon\pistol.wav 0 0 pistol");
+			Cmd(al, "Dist pistol 5000 5000");
+			local s=format("Move pistol %d %d %d", px, py, pz);
+			Cmd(al, s);
+			Cmd(al, "Play pistol");
+		end
+		
+	end
+	
+	SetNumber(this, "prev_frame", frame);
+
+end
+
+
+function assembletool_Update(this)
+	if (GetRenderable(this)==0) then
+		do return end;
+		
+	end
+	
+	local parent=GetParent(this);
+	if not (parent) then
+		do return end;
+		
+	end
+	
+	local prev_frame=GetNumber(this, "prev_frame");
+	local frame=GetFrame(parent);
+	SetNumber(this, "prev_frame", frame);
+	if (GetAnimation(parent)~="hitassemble") then
+		do return end;
+		
+	end
+	
+	if (prev_frame<19) and (frame>=19) then
+		HitTool(this, GetNumber(this, "damage"));
+	end
+	
+	SetNumber(this, "prev_frame", frame);
+
+end
+
+
+function rush_OnBribe(this)
+	local money=GetNumber(this, "money");
+	local felony=GetNumber(this, "felony");
+	local rmoney=(felony * 10);
+	if (rmoney>money) then
+		gui_AddMsg("GUI\info", NOTENOUGHMONEY);
+	else
+		SetNumber(this, "money", (money - rmoney));
+		SetNumber(this, "felony", 0);
+	end
+	
+
+end
+
+
+function rush_selectWeapon(this, weaponID)
+	local pistol=FindObject("pistol");
+	local uzi=FindObject("uzi");
+	local assembletool=FindObject("assembletool");
+	SetRenderable(pistol, 0);
+	SetUpdatable(pistol, 0);
+	SetRenderable(uzi, 0);
+	SetUpdatable(uzi, 0);
+	SetRenderable(assembletool, 0);
+	SetUpdatable(assembletool, 0);
+	SetActiveItem("", "");
+	if (mission_curid==2) then
+		SetActiveItem("thumbnail\icon7", tostring(carCount));
+	end
+	
+	if (mission_curid==0) then
+		local truck=FindObject("Truck");
+		local truckLoadedWheels=GetNumber(truck, "LoadedWheels");
+		SetActiveItem("thumbnail\icon8", tostring(truckLoadedWheels));
+	end
+	
+	if (GetNumber(this, "haveweapon"..tostring(weaponID))==0) then
+		SetNumber(this, "weapon", -1);
+		do return end;
+		
+	end
+	
+	SetNumber(this, "weapon", weaponID);
+	if (weaponID==0) then
+		SetRenderable(pistol, 1);
+		SetUpdatable(pistol, 1);
+		SetActiveItem("thumbnail\icon1", tostring(GetNumber(pistol, "ammo")));
+	end
+	
+	if (weaponID==1) then
+		SetRenderable(uzi, 1);
+		SetUpdatable(uzi, 1);
+		SetActiveItem("thumbnail\icon2", tostring(GetNumber(uzi, "ammo")));
+	end
+	
+	if (weaponID==2) then
+		SetRenderable(assembletool, 1);
+		SetUpdatable(assembletool, 1);
+		local truck=FindObject("Truck");
+		local truckLoadedWheels=GetNumber(truck, "LoadedWheels");
+		SetActiveItem("thumbnail\icon8", tostring(truckLoadedWheels));
+	end
+	
+
+end
+
+
+function OnSelectUZI(this)
+	rush_selectWeapon(this, 1);
+
+end
+
+
+function OnSelectPistol(this)
+	rush_selectWeapon(this, 0);
+
+end
+
+
+function OnSelectAssembleTool(this)
+	rush_selectWeapon(this, 2);
+
+end
+
+
+function rush_Damage(this)
+	Scream(this, "SCREAM", 4);
+
+end
+
+
+function rush_Die(this)
+	Scream(this, "SCREAM", 4);
+
+end
+
+
+function rush_PassengerOutOfMoney(this)
+	local timeout=GetNumber(this, "timeout");
+	timeout=(timeout - DT);
+	if (timeout<=0) then
+		gui_AddMsg("GUI\info", NOTENOUGHMONEY);
+		timeout=5;
+	end
+	
+	SetNumber(this, "timeout", timeout);
+
+end
+
+
+function rush_Update(this)
+	if (GetNumber(this, "health")<=0) then
+		do return end;
+		
+	end
+	
+	if (mission_curid==10) then
+		local disptimeout=GetNumber(this, "disptimeout");
+		disptimeout=(disptimeout - DT);
+		if (disptimeout<=0) then
+			SetActiveItem("thumbnail\braker", tostring((30 - totalKills)));
+			disptimeout=2;
+		end
+		
+		SetNumber(this, "disptimeout", disptimeout);
+	end
+	
+	local car=GetVehicle(this);
+	local anim=GetAnimation(this);
+	local hiding=GetNumber(this, "hiding");
+	if (anim==1) then
+		local outsideroad=GetNumber(this, "outsideroad");
+		if (GetSpeed(disptimeout)>10) or (hiding==0) then
+			anim=0;
+		end
+		
+	end
+	
+	if (disptimeout>0) then
+		local dx, dy, dz=TransDir(disptimeout, 0, 1, 0);
+		if (outsideroad<0) then
+			if ("fliptimeout"()>3) then
+				if (GetNumber(disptimeout, "flipped")==0) then
+					gui_AddMsg("GUI\info", PRESSBACKSPACE);
+					SetNumber(disptimeout, "flipped", 1);
+				end
+				
+				local money=GetNumber(this, "money");
+				if (lastChar==8) then
+					local x, y, z=GetPosition(disptimeout);
+					money=(money + 150);
+					local fx, fy, fz=0(0, 1);
+					local angle=z(fx);
+					local str=format("spawn %d %d %d %f", dz, money, x, fy);
+					Cmd(disptimeout, fz);
+					Cmd(disptimeout, "alpha 1");
+					SetNumber(this, "money", dy);
+					SetNumber(disptimeout, "flipped", 0);
+				end
+				
+			end
+			
+		end
+		
+	end
+	
+	if (lastChar==8) then
+		lastChar=0;
+	end
+	
+	local felony=GetNumber(this, "felony");
+	if (hiding>3) then
+		if ((hiding - (DT / 4))<=3) then
+			hiding=0;
+		end
+		
+	end
+	
+	hiding=(hiding - (DT / 4));
+	if (hiding<0) then
+		hiding=0;
+	end
+	
+	if (hiding>100) then
+		hiding=100;
+	end
+	
+	SetNumber(this, "felony", hiding);
+	local weaponID=GetNumber(this, "weapon");
+	if (lastChar>0) then
+		if (car=="idle1") or (car=="idlefight") or (car=="run") then
+			if (lastChar==49) then
+				rush_selectWeapon(this, 0);
+				lastChar=0;
+			end
+			
+			if (lastChar==50) then
+				rush_selectWeapon(this, 1);
+				lastChar=0;
+			end
+			
+			if (lastChar==51) then
+				rush_selectWeapon(this, 2);
+				lastChar=0;
+			end
+			
+			if (lastChar==96) then
+				rush_selectWeapon(this, -1);
+				lastChar=0;
+			end
+			
+		end
+		
+	end
+	
+	if (car~="run") then
+		if (car~="stepright") then
+			if (car~="walkback") then
+				if (car=="walkcarry") then
+					local frame=GetFrame(this);
+					local prev_frame=GetPrevFrame(this);
+					if (dy>=12) or (dx<12) then
+						if (dy<27) and (dx>=27) then
+							local px, py, pz=GetPosition(this);
+							local prev_stepID="prev_stepID"();
+							local al=FindObject("OpenAL");
+							local id=random(1, 6);
+							while (fx==y) do
+								fx=random(1, 6);
+							end
+							
+							SetNumber(this, "prev_stepID", fx);
+							local sx, sy, sz=ScrPos();
+							local dist2=((((fy - dz) * (fy - dz)) + ((fz - money) * (fz - money))) + ((angle - angle) * (angle - x)));
+							if (str<(3000 * 3000)) then
+								local sndid="sndid"();
+								felony=floor(mod((felony + 1), 2));
+								SetNumber(this, "sndid", felony);
+								local name="step_g"..felony;
+								Cmd(z, "Close "..weaponID);
+								local s=IDT_Nil;
+								if (CurrentRain<20) then
+									frame=format("Open Sounds\\Steps\\Asphalt\\%d.wav 0 0 %s", fx, weaponID);
+								else
+									frame=format("Open Sounds\\Steps\\Wet\\%d.wav 0 0 %s", fx, weaponID);
+								end
+								
+								Cmd(z, frame);
+								Cmd(z, format("Gain %s %f 0 1", weaponID, (0.4 + (random() * 0.3))));
+								Cmd(z, format("Dist %s 5000 500", weaponID));
+								money=(money + 100);
+								frame=format("Move %s %d %d %d", weaponID, dz, money, x);
+								Cmd(z, frame);
+								Cmd(z, "Play "..weaponID);
+							end
+							
+						end
+						
+						if (car~="fightpunch") then
+							if (car=="fightbacklegkick") then
+								local frame=GetFrame(this);
+								local prev_frame=GetPrevFrame(this);
+								if (dy<10) and (dx>=10) then
+									local px, py, pz=GetPosition(this);
+									money(x, "karate\whizz", 1, "channel2");
+								end
+								
+								if (car~="fightbacklegkick") or (dy>=16) or (dx>=16) then
+									HitHandLeg(this, "Bip01 R Foot", 30, TransDir(this, -20, 0, -80));
+								end
+								
+								if (car~="fightbacklegkick") or (dy>=15) or (dx>=15) then
+									HitHandLeg(this, "Bip01 R Foot", 30, TransDir(this, -20, 0, -80));
+								end
+								
+								if (car~="fightbacklegkick") or (dy>=17) or (dx>=17) then
+									HitHandLeg(this, "Bip01 R Foot", 30, TransDir(this, -20, 0, -80));
+								end
+								
+								if (car~="fightpunch") or (dy>=9) or (dx>=9) then
+									HitHandLeg(this, "Bip01 R Hand", 20, TransDir(this, 0, 0, -50));
+								end
+								
+								if (car~="fightpunch") or (dy>=10) or (dx>=10) then
+									HitHandLeg(this, "Bip01 R Hand", 20, TransDir(this, 0, 0, -50));
+								end
+								
+							end
+							
+							if (car=="taxiwaiter") then
+								local frame=GetFrame(this);
+								local prev_frame=GetPrevFrame(this);
+								if (dy<8) and (dx>=8) then
+									Scream(this, "hey", 1);
+								end
+								
+							end
+							
+							local hx, hy, hz, hdepth, hobj, hspeed=GetHitDepth(this);
+							if (y>500) and (money>20) then
+								if (()>0) then
+									local cmd=((money - 0.1) * 100)(dx, dy, dz);
+									Cmd(this, z);
+									if (GetNumber(this, "health")<=0) then
+										Scream(this, "SPLASH", 1);
+									end
+									
+								end
+								
+							end
+							
+
+end
+
+
+function rush_InitialUpdate(this)
+	EnableClipDistance(this, 0);
+	GenNormals(this, 1);
+	if (0==1) then
+		id=InsertObject("Models\\rush_head", 7, 0, -3, (PI / 2), (-PI / 2));
+		SetParent(id, this);
+		SetName(id, "rush_head");
+		LinkWithBone(id, "Bip01 Neck");
+		SetLODThresold(id, 20);
+		EnableClipDistance(id, 0);
+		GenNormals(id, 1);
+	end
+	
+	id=InsertObject("Models\\pistol");
+	SetParent(id, this);
+	SetName(id, "pistol");
+	SetLODThresold(id, 50);
+	GenNormals(id, 1);
+	LinkWithBone(id, "Bip01 R Hand");
+	EnableClipDistance(id, 0);
+	SetNumber(id, "dispersion", 0.03);
+	SetNumber(id, "damage", 40);
+	SetNumber(id, "autoaimangle", 0.97);
+	SetNumber(id, "ammo", 50);
+	id=InsertObject("Models\\uzi");
+	SetName(id, "uzi");
+	SetParent(id, this);
+	SetLODThresold(id, 50);
+	GenNormals(id, 1);
+	LinkWithBone(id, "Bip01 R Hand");
+	EnableClipDistance(id, 0);
+	SetRenderable(id, 0);
+	SetNumber(id, "dispersion", 0.2);
+	SetNumber(id, "damage", 30);
+	SetNumber(id, "autoaimangle", 0.97);
+	SetNumber(id, "ammo", 100);
+	id=InsertObject("Models\\assembletool", 0, 0, 5);
+	SetScale(id, 0.8, 0.8, 0.8);
+	SetName(id, "assembletool");
+	SetParent(id, this);
+	SetLODThresold(id, 50);
+	GenNormals(id, 1);
+	LinkWithBone(id, "Bip01 R Hand");
+	EnableClipDistance(id, 0);
+	SetNumber(id, "damage", 20);
+	SetRenderable(id, 0);
+	SetNumber(this, "scanner", 0);
+	SetNumber(this, "picklock", 0);
+	SetString(this, "SHOTFLARE", "PLAYERFLARE");
+	if (mission_curid~=3) then
+		SetNumber(this, "money", 100);
+	end
+	
+	rush_selectWeapon(this, -1);
+
+end
+
+
+function rush_SwitchLevel(this, active) end
+
+
+function rush_head_InitialUpdate(this)
+	head_InitialUpdate(this);
+
+end
+
+
+function rush_head_Update(this)
+	local parent=GetParent(this);
+	if (GetNumber(parent, "firstperson")==1) then
+		SetRenderable(this, 0);
+		return;
+		
+	else
+		SetRenderable(this, 1);
+	end
+	
+	if (GetNumber(parent, "health")<=0) then
+		do return end;
+		
+	end
+	
+	if (random(1, 30)==1) then
+		head_setEyeAngles(this, 0, ((((random() * 2) - 1) * PI) / 16));
+	end
+	
+	if (random(1, 30)==1) then
+		local s=(random() - 0.5);
+		head_setEyebrows(this, s, s, 0);
+	end
+	
+	if (random(1, 50)==1) then
+		head_setAngles(this, ((((random() * 2) - 1) * PI) / 8), ((((random() * 2) - 1) * PI) / 8), 0);
+	end
+	
+	if (random(1, 30)==1) then
+		local smile=((random() * 2) - 1);
+		head_setSmile(this, s);
+		head_setMouthAngles(this, ((s * PI) / 64), ((s * PI) / 64), ((((random() * 2) - 1) * PI) / 64));
+	end
+	
+	local emotions=GetString(parent, "emotions");
+	if (s=="angry") then
+		head_setEyeAngles(this, 0, (PI / 32));
+		head_setAngles(this, (PI / 16), 0, 0);
+		head_setSmile(this, -0.5);
+		head_setEyebrows(this, -1, -1, 0);
+	end
+	
+	head_Update(this);
+
+end
+
+

@@ -1,0 +1,262 @@
+function ReadRegistryF(key)
+	local s=GetSetting(key);
+	if not ((not s)) then
+		if (strlen(s)<=0) then
+			do return IDT_Nil end;
+			
+		end
+		
+	end
+	
+	return s;
+	
+
+end
+
+
+function WriteRegistryF(key, value)
+	if not (value) then
+		value="";
+	end
+	
+	SetSetting(key, value, 1);
+
+end
+
+setglobal("WriteRegistry", WriteRegistryF);
+setglobal("ReadRegistry", ReadRegistryF);
+DEMOVERSION=0;
+
+function Str2Bool(str)
+	if (str=="1") or (str=="true") then
+		do return 1 end;
+		
+	end
+	
+	return 0;
+	
+
+end
+
+
+function MissionPassed(misid)
+	if (misid>MISSIONS_PASSED) then
+		MISSIONS_PASSED=misid;
+		WriteRegistry("MISSIONS_PASSED", tostring(misid));
+	end
+	
+
+end
+
+MISSIONS_PASSED=ReadRegistry("MISSIONS_PASSED");
+if not (MISSIONS_PASSED) then
+	MISSIONS_PASSED=1;
+else
+	MISSIONS_PASSED=tonumber(MISSIONS_PASSED);
+end
+
+VIEWRANGEFACTOR=0.03;
+SPLATTERS=Str2Bool(GetSetting("Splatters"));
+G_GRAVITY=-25;
+G_ITERATIONS=10;
+CFM=0.001;
+ERP=0.4;
+FPS=0;
+DT=0.33;
+PLAYER=0;
+steer=1;
+god=0;
+skid=0.5;
+skid1=1;
+ACTIVEMISSION=0;
+CURRENTMISSIONID=0;
+GAMEMODE=-1;
+STEALTHID=random(0, 3);
+SKIPMISSION=0;
+ParkedChance=10;
+ADDITIVE=0;
+BLEND=1;
+RBUTTON=1;
+LBUTTON=2;
+RBUTTONCLICKED=4;
+LBUTTONCLICKED=8;
+RBUTTONDOWN=16;
+LBUTTONDOWN=32;
+MBUTTON=64;
+MBUTTONCLICKED=128;
+MBUTTONDOWN=256;
+WHEELUP=512;
+WHEELDN=1024;
+CTRL=2048;
+FOCUSDIST=15;
+CLS_TERRAIN=101;
+CLS_ROADNETWORK=202;
+CLS_SPLATTERSYSTEM=189;
+CLS_CHARACTER=4;
+CLS_CAR=333;
+MusicReadyTimeout=0;
+race_finish={x=306286,
+y=4805,
+z=324732};
+race_checkpoint={x=392353,
+y=3850,
+z=491194};
+
+function FindObjectByClsID(whatID)
+	for i=0, (NumObjects() - 1) do
+		local obj=ObjectAtIdx(i);
+		local clsID=ClassID(obj);
+		if (clsID==whatID) then
+			do return obj end;
+			
+		end
+		
+	end
+	
+	return 0;
+	
+
+end
+
+
+function IntersectLineClsID(self, whatID, x, y, z, x1, y1, z1)
+	for i=0, (NumObjects() - 1) do
+		local obj=ObjectAtIdx(i);
+		local clsID=ClassID(obj);
+		if (clsID==whatID) or (whatID==0) then
+			if (SameObjects(obj, self)==0) then
+				local cx, cy, cz, nx, ny, nz, triID=IntersectLine(obj, x, y, z, x1, y1, z1);
+				if (triID~=-1) then
+					do return end;
+					
+				end
+				
+			end
+			
+		end
+		
+	end
+	
+	return;
+	
+
+end
+
+
+function IntersectLineNoTerrainRoadnetwork(x, y, z, x1, y1, z1)
+	for i=0, (NumObjects() - 1) do
+		local obj=ObjectAtIdx(i);
+		local clsID=ClassID(obj);
+		if (clsID~=CLS_TERRAIN) then
+			if (clsID~=CLS_ROADNETWORK) then
+				local cx, cy, cz=IntersectLine(obj, x, y, z, x1, y1, z1);
+				if (cx~=x1) or (cy~=y1) or (cz~=z1) then
+					do return cy, cz end;
+					
+				end
+				
+			end
+			
+		end
+		
+	end
+	
+	return 0;
+	
+
+end
+
+
+function damage_CloseObjects(this, damage, radius)
+	local px, py, pz=GetPosition(this);
+	for i=NumObjects, (() - 1) do
+		local obj=i();
+		local clsID=ClassID(obj);
+		if (clsID==CLS_CHARACTER) or (clsID==CLS_CAR) then
+			if (SameObjects(this, obj)==0) then
+				local x, y, z=GetPosition(obj);
+				local dist=(y - py)((z - pz));
+				dist=(dist / radius);
+				if (dist<1) and (clsID==CLS_CHARACTER) then
+					if (GetNumber(obj, "health")>0) then
+						local dmg=(damage * (1 - dist));
+						if (SameObjects(obj, PLAYER)==1) then
+							dmg=(dmg * 0.1);
+						end
+						
+						local cmd=format("Damage %d %d %d %d", dmg, px, py, pz);
+						Cmd(obj, cmd);
+					end
+					
+				end
+				
+				if (dist<1) and (clsID==CLS_CAR) then
+					if (GetNumber(obj, "health")>0) then
+						SetNumber(obj, "health", ((dist * 5) + 2));
+					end
+					
+				end
+				
+			end
+			
+		end
+		
+	end
+	
+	return 0;
+	
+
+end
+
+
+function GetAutoAimTarget(parent, vx, vy, vz, maxDot)
+	local cam_x, cam_y, cam_z=GetPosition(parent);
+	cam_y=(cam_y + 100);
+	vx, vy, vz=vy(vz);
+	local bestobj=vx;
+	local bestdot=vx;
+	local bestox=vx;
+	local bestoy=vx;
+	local bestoz=vx;
+	for i=0, (NumObjects() - 1) do
+		local obj=ObjectAtIdx(i);
+		local clsID=ClassID(obj);
+		if (clsID==CLS_CHARACTER) or (clsID==CLS_CAR) then
+			if (SameObjects(parent, obj)==0) then
+				local ox, oy, oz=GetPosition(obj);
+				oy=(0 + 150());
+				ox, oy, oz=SubVectors(ox, oy, oz, cam_x, cam_y, cam_z);
+				oy=(oy / 10);
+				local dist=VectorLength(ox, oy, oz);
+				ox, oy, oz=DivVector(ox, oy, oz, dist);
+				local dot=DotProduct(ox, oy, oz, vx, vy, vz);
+				if (dot<=maxDot) or (dist<=200) or (dist<4000) then
+					dot=(dot / dist);
+					if (dot>bestdot) then
+						bestdot=dot;
+						bestobj=obj;
+						bestox=ox;
+						bestoy=oy;
+						bestoz=oz;
+					end
+					
+				end
+				
+			end
+			
+		end
+		
+	end
+	
+	return bestobj, bestox, bestoy, bestoz;
+	
+
+end
+
+
+function alCmd(cmd)
+	Cmd(FindObject("OpenAL"), cmd);
+
+end
+
+

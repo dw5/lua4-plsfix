@@ -1,0 +1,125 @@
+function CarSettings(name, accelerationSpeed, maxSpeed, jointsoftness, mass, steerSpeed, maxSteer, wheelOff, wheelMaxOff, wheelMass, friction, wheelshift, engineSnd)
+	local addoff=0;
+	wheelshift=20;
+	if (name=="models\\concept3") then
+		jointsoftness=0.9;
+		mass=5;
+		wheelOff=15;
+		wheelMaxOff=25;
+	end
+	
+	if (name=="models\\bus") then
+		jointsoftness=3;
+		mass=30;
+	end
+	
+	if (name=="models\\taxi") then
+		jointsoftness=1.2;
+		mass=5;
+		accelerationSpeed=30;
+		maxSpeed=30;
+		wheelshift=40;
+	end
+	
+	if (name=="models\\tcar3") then
+		jointsoftness=1.2;
+		mass=5;
+		accelerationSpeed=30;
+		maxSpeed=35;
+		engineSnd="Sounds\\car\\low.wav";
+	end
+	
+	if (name=="models\\pikap2") then
+		wheelshift=40;
+		jointsoftness=1.2;
+		mass=5;
+		accelerationSpeed=30;
+		maxSpeed=40;
+		engineSnd="Sounds\\car\\low.wav";
+	end
+	
+	if (name=="models\\furgon") then
+		accelerationSpeed=15;
+		mass=4;
+		engineSnd="Sounds\\car\\diesel.wav";
+		maxSpeed=30;
+	end
+	
+	if (name=="models\\furgon1") then
+		accelerationSpeed=15;
+		mass=4;
+		engineSnd="Sounds\\car\\diesel.wav";
+		maxSpeed=30;
+	end
+	
+	if (name=="models\\pikap") then
+		mass=4;
+		maxSpeed=30;
+		wheelshift=30;
+		engineSnd="Sounds\\car\\diesel.wav";
+	end
+	
+	if (name=="models\\van1") then
+		mass=5;
+		wheelOff=20;
+		wheelMaxOff=30;
+		engineSnd="Sounds\\car\\low.wav";
+		maxSpeed=30;
+	end
+	
+	if (name=="models\\police") then
+		jointsoftness=1.2;
+		mass=5;
+		addoff=-10;
+		wheelOff=20;
+		wheelMaxOff=30;
+		accelerationSpeed=20;
+		maxSpeed=30;
+		wheelshift=30;
+	end
+	
+	if (name=="models\\tcar1") then
+		jointsoftness=1;
+		addoff=-10;
+		mass=10;
+		wheelOff=20;
+		wheelMaxOff=30;
+		wheelshift=30;
+		maxSpeed=30;
+	end
+	
+	if (name~="models\\concept6") then
+		if (name~="models\\concept8") then
+			if (name~="models\\concept7") then
+				if (name~="models\\concept5") then
+					if (name~="models\\concept4") then
+						if (name=="models\\concept3") then
+							jointsoftness=0.8;
+							mass=7;
+							wheelOff=15;
+							wheelMaxOff=30;
+							accelerationSpeed=15;
+							maxSpeed=45;
+							friction=3000;
+							addoff=-7;
+							if (name=="models\\concept5") then
+								jointsoftness=1;
+								accelerationSpeed=10;
+								engineSnd="Sounds\\car\\diesel.wav";
+								maxSpeed=40;
+							end
+							
+						end
+						
+						maxSpeed=(maxSpeed * 1.2);
+						wheelOff=((30 - (maxSpeed / 10)) + addoff);
+						wheelMaxOff=40;
+						jointsoftness=(maxSpeed / 80);
+						wheelshift=10;
+						mass=5;
+						return accelerationSpeed, maxSpeed, jointsoftness, mass, steerSpeed, maxSteer, wheelOff, wheelMaxOff, wheelMass, friction, wheelshift, engineSnd;
+						
+
+end
+
+

@@ -1,0 +1,264 @@
+MENU_YES="��";
+MENU_NO="���";
+MENU_HIGH="��᮪.";
+MENU_MED="�।�.";
+MENU_LOW="����.";
+MENU_APPLY="�ਬ�����";
+MENU_DETAIL="��⠫�: ";
+MENU_VIDEO="�����";
+MENU_FULLSCREEN="�� ���� ��࠭:";
+SCANNING="��������";
+BLOOD=1;
+QUIT_YES=89;
+QUIT_NO=78;
+RAMTHATCAR="������!";
+CONTROL_FORWARD="������";
+CONTROL_BACKWARD="�����";
+CONTROL_TURNLEFT="������";
+CONTROL_TURNRIGHT="�������";
+CONTROL_HANDBRAKE="������ ������";
+CONTROL_FIRE="�������";
+CONTROL_ACTION="��������";
+CONTROL_BRIBE="������";
+CONTROL_ENGINE="���������";
+CONTROL_FPS="��� �� ����";
+CONTROL_MAP="�������";
+CONTROL_ILLUMINATION="����";
+MENU_CONTROLS="����������";
+LOGOTEXTURE="GUI\\logorus";
+LOGOTEXTURE1="GUI\\logorus1";
+PROGRAMMING="����������������";
+ILIASTEPANOV="���� ��������";
+GRAPHICS="�������";
+DMITRILYKOV="������� �����";
+BACK="�����";
+BONUSMISSION="�����";
+MISSION="������ ";
+STEALTHMODE="����";
+STORYMODE="������";
+BESTRATING="������ �������: ";
+SGAMMA="�����";
+SMUSIC="������";
+SSOUND="����";
+MARKERINSTALLED="����� [%d �� 5] ����������!";
+RATINGBEST="% - ������!";
+MISSIONCOMPLETE="������ ������� ���������!";
+YOURRATING="���� �������: ";
+ONEMORECARLEFT="��� ���� ������ ��������! ����������!";
+LAUNCH="������!";
+COOL="�������!";
+COOLFIRSTCAR="�������! ������ ������!";
+LEAVECAR="������� ������ �� �����!";
+MISSIONFAILED="������ ���������!";
+BUSTED="Te�� �������� �������!";
+KILLS="%d �� 30!";
+DOUBLEKILL="������� ��������!";
+STOLENCAR="��������! ������� ����������� ��� ������!";
+HELP0="����� 'E' ��� ������� ���������";
+HELP1="����� 'ENTER' ����� ����� � ������";
+HELP2="����� 'ENTER' ��� ��������� ������";
+HELP3="����� 'ENTER' ����� �������� ������";
+HELP4="����� 'ENTER' ����� ��������� ������";
+HELP5="����� 'B' ��� ���� ����� ���� ������";
+HELP6="��� ���� ����� ���������� ���, ����� 'E'";
+HELP6A="�� ����� ��������� ��� ���������� ������������";
+HELP7="����� 'ENTER' ��� ���� ����� ������� �� ������";
+PRESSENTER="����� ENTER";
+SSTARTENGINE="������...";
+SDISALARM="���������� ������������...";
+DISALARMFAILED="�� ���� ��������� ������������!";
+DISALARMED="������������ ���������!";
+SREMOVEWHEEL="C����� ������...";
+SUSEPICKLOCK="�������� ����...";
+SPUTMARKER="��������� �����...";
+COOLFIRSTCAR="�������! ������ ��������!";
+GREATONEMORECAR="�������! �� ������� ��� ���� ������!";
+NOTENOUGHMONEY="� ���� ��� ������� �����!";
+OUTOFFUEL="� ���� ���������� ������!";
+QUIT2MMENU="����� � ������� ���� ? (Yes/No)";
+LOADING="��������...";
+CLIP="�� �������� ������ ��������";
+HUNDRED="�� �������� 100$";
+ADDUZI="�� �������� ���";
+ADDPISTOL="�� �������� ��������";
+FIRSTKIT="�� �������� �������";
+HEALTH="�����";
+FELONY="������";
+DAMAGE="�����������";
+NEWGAME="����� ����";
+CONTINUEGAME="����������";
+ABOUT="������";
+OPTIONS="�����";
+QUIT="�����";
+OUTOFLEVEL="������� ������� � �����!";
+PRESSBACKSPACE="����� BACKSPACE ����� ����������� ������";
+PUTMARKER="��������� �����";
+BRIBE="���� ������";
+HIDE="����������";
+OPENDOOR="������� �����";
+CLOSEDOOR="������� �����";
+GETOUT="�������";
+TOGGLEILLUM="���\\���� ����";
+TOGGLESIREN="���\\���� ������";
+STARTENGINE="�������";
+MUFFLEENGINE="���������";
+CANTSTART="�� ���� �������";
+TAXI="�����!!";
+GETIN="������";
+REMOVEWHEEL="����� ������";
+LOADWHEEL="��������� ������";
+DOORLOCKED="����� �������";
+DOORUNLOCKED="����� �������";
+WHEELCOUNT="����� ��������� �����: %d";
+WHEELLOADED="������ ���������";
+E_COPYRIGHT1="\\I2004 (c) ��� ����� ��������.\\i";
+E_COPYRIGHT2="\\IKozmogames Inc. - www.kozmogames.com\\i";
+E_COPYRIGHT3="\\INew Media Generation - www.nmg.ru\\i";
+
+function MissionShortInfo(misid, gamemode)
+	misid=MissionRemap(misid);
+	if (misid==3) then
+		do return "���������� 350$ ������� ���������" end;
+		
+	end
+	
+	if (misid==9) then
+		do return "��������� ������� � ����� ����." end;
+		
+	end
+	
+	if (misid==2) then
+		do return "���������� ����� �� ����������� ������" end;
+		
+	end
+	
+	if (misid==0) then
+		do return "����� 16 ����� � �������������� �����������" end;
+		
+	end
+	
+	if (misid==4) then
+		do return "����� � ������ ���������� ����������" end;
+		
+	end
+	
+	if (misid==7) then
+		do return "�������� �������� ����� � ��������" end;
+		
+	end
+	
+	if (misid==1) then
+		do return "������ 3 ����������� ������" end;
+		
+	end
+	
+	if (misid==6) then
+		do return "��������� ����� �� ������ ����������" end;
+		
+	end
+	
+	if (misid==5) then
+		do return "�������� ������ ������ ����� �����" end;
+		
+	end
+	
+	if (misid==10) then
+		do return "���������� ������������� �����������" end;
+		
+	end
+	
+	if (misid==11) then
+		do return "�����: ��������� ������" end;
+		
+	end
+	
+	return "";
+	
+
+end
+
+
+function MissionInfo(misid, gamemode)
+	misid=MissionRemap(misid);
+	if (misid==3) then
+		StartIntro("Sounds\rap1.wav", "intro\taxi", "intro\slippy", IDT_Nil, "�� ��������� ���� ������� ���������. ���� ����� ���������� 350$ �� 15 ���. ��� ������� �� ����������� ��� ������, ��� ���� ����� ���� �������. ��������� ����������, ���� ������ ����� ������. �� ������� ������� � ����� ������� �������� �� �����.", 0, 0, 100);
+	end
+	
+	if (misid==9) then
+		StartIntro("Sounds\rap2.wav", "intro\chinatown", "intro\slippy", "intro\mob", "� ����� �������� ���, �� ��� ������, ��������, ����������� �����. ���������� ���� ������������ ������ ������ ������� ������. �������������� �� ��������� ���� ������ ��������� � �� ���������������� ��������������. �� ��������� ���� ���� ����� ������� ��� �� �������� � ��������� ����� � ���������� ������� � ����� ����.", 50, 50, 50);
+	end
+	
+	if (misid==2) then
+		StartIntro("Sounds\rap1.wav", "intro\bar", "intro\slippy", "intro\mob2", "����� ���� ��� �� ���� ����� ����� ������� �������� ���������� ���������. ��� ������ ������ �������� ������ �����, � ������ �� ����� �� �����. ��� ���� �������. � ���� ���� 15 ��� ����� ���������� 5 ������ �� ����������� ������. ���� ����� ������ ������ ������ � ���������. ������������ ����� ����� ���������, � ����� �� ��� ����� �������� ���� �� �������. � ���������� ��� ����� ������� ����������� ���� ����, �.�. �� ������� ����������� ����������� ������� �� ����� ������. ��� ����������� �� ������ ������������ �������.", 50, 50, 50);
+	end
+	
+	if (misid==0) then
+		StartIntro("Sounds\rap2.wav", "intro\bar", "intro\slippy", "intro\mob", "��������� ����� ���������� �������. ���� ������ ��������� �� �����������. ������� ����� �������, �� ���� ���� ����������� ���������. ���� ������� ���� �������, ������ ����� ���������. � ���� ���� 15 ��� ����� ����� 16 ����� � ����� �������������� �����. ��������� ��� ����� �������� ���� (������� 3). ����� ��� ������ � ����������. ����� ���� ��� ��������� - ����������� � �����.", 50, 50, 50);
+	end
+	
+	if (misid==4) then
+		STEALTHID=1;
+		MissionStealthInfo(0, 1);
+	end
+	
+	if (misid==7) then
+		StartIntro("Sounds\rap1.wav", "intro\race", "intro\slippy", IDT_Nil, "����� �� ��������� ������, �� ��������� �� ������ �������. ��� ���� ���� ��������� �������� �� ���� � �� ������ ���� ��� ��� ��� ����� ����� ������ ��� ������� �����. ���� ������ �������� ����� � ���� ��������, ��� ����� ���� ���� ����� � ����� ����.", 0, 0, 0);
+	end
+	
+	if (misid==1) then
+		StartIntro("Sounds\rap2.wav", "intro\bar", "intro\slippy", "intro\mob", "������� ������������ ����������� ������. � ���� ���� 15 ��� ����� ������ 3 ����������� ������. ��� �������������� ������. ����� ��� ���� ��������� ��������� ����� ��������� ��� �������, ��� ��� ���� ���������. ��������� ���������� � �����, ������� ������� �� ����� �����.", 50, 50, 50);
+	end
+	
+	if (misid==6) then
+		StartIntro("Sounds\rap1.wav", "intro\van", "intro\slippy", "intro\mob", "���� ����� ��������� ���� ����� �� ������ ���������� ����� � ����������. � ���� ���� ����� 5 ���. ������ ���� �������� - ���� ������ ���������� ����� � ���������� ������� �� �����. ��� ���� � ��� ��� � ���� ������ ��������� ����� � ������� ���� ������ ��� ������.", 20, 20, 20);
+	end
+	
+	if (misid==5) then
+		StartIntro("Sounds\rap2.wav", "intro\dead_girl", "intro\slippy", IDT_Nil, "�������� ��������� ������� �����, �� ��������� ��������! �� ������� �����. ����� ��������� ���� ���� ������� ����� �� ���� ���� �������, ������� �������� ����������, ����������� ����� �����. �� �������� ������ ������������� �����������. ������� � ����� - ��� ���� ������.", 20, 20, 20);
+	end
+	
+	if (misid==10) then
+		StartIntro("Sounds\rap1.wav", "intro\slum", "intro\slippy2", "intro\braker", "��� ���� ����� ��������� �������, ���� ����� ���������� ��� ��������� �����������. ��� �� ����� �� �����. �� ����� 30 �������. ����� ����� ��������, �� ������������.", 20, 20, 20);
+	end
+	
+	if (misid==11) then
+		StartIntro("Sounds\rap2.wav", "intro\bar", "intro\slippy1", "intro\mob3", "����������! �� ������� ��������� ������������� �����������. ����� ��������� � ����� ������������. ���� ������� ������� ���� ��������� �����, � ������� � ���, ��� �� ��� �����. ��� ��������� � ����� ������������. ������ ���� �� ���� ������ �������.", 20, 20, 20);
+	end
+	
+
+end
+
+
+function MissionStealthInfo(misid, gamemode)
+	StartIntro("Sounds\rap"..random(1, 2)..".wav", StealthArg(1), "intro\slippy", IDT_Nil, "���� ����� ����� � ������ ��� ������ � ����� ����� ��������� �� �� ����������. ����� �� ����� �� ��� ������, �� �� ����� �������� ������ ������� ��� ������ ��� ������. ��������� ������� M ��� ����� �������� �����. ����� ������� �� ��������� ������ ���� ������������ (������� E) ��� ���������� ���� ������������. ��������� ������� - ������� �������� � ����� � ��������� ������� ENTER. ������� �������.", 10, 10, 10);
+
+end
+
+
+function page_credits()
+	menu_displayBegin(300, 353);
+	menu_addMenuString("������", 1, 255, 255, 255);
+	menu_addMenuString(E_COPYRIGHT1, 0.5, 255, 255, 255);
+	menu_addMenuString(E_COPYRIGHT2, 0.5, 255, 255, 255);
+	menu_addMenuString(E_COPYRIGHT3, 0.5, 255, 255, 255);
+	menu_addMenuString("", 0.3, 255, 255, 255);
+	menu_addMenuString("����������������", 0.6, 255, 0, 0);
+	menu_addMenuString("���� ��������", 0.5, 255, 255, 255);
+	menu_addMenuString("", 0.3, 255, 255, 100);
+	menu_addMenuString("�������", 0.6, 255, 0, 0);
+	menu_addMenuString("���� ��������", 0.5, 255, 255, 255);
+	menu_addMenuString("������� �����", 0.5, 255, 255, 255);
+	menu_addMenuString("", 0.3, 255, 255, 100);
+	menu_addMenuString("������", 0.6, 255, 0, 0);
+	menu_addMenuString("������ ��������", 0.5, 255, 255, 255);
+	menu_addMenuString("", 0.3, 255, 255, 100);
+	menu_addMenuString("��������� �������", 0.6, 255, 0, 0);
+	menu_addMenuString("����� ������", 0.5, 255, 255, 255);
+	menu_addMenuString("����� ������", 0.5, 255, 255, 255);
+	menu_addMenuString("", 0.8, 255, 255, 100);
+	menu_fontscale=0.8;
+	menu_addMenuItem(BACK);
+
+end
+
+

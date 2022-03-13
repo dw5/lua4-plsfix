@@ -1,0 +1,118 @@
+Material("default", "ambient", 0.3, 0.3, 0.2, 0);
+Material("default", "diffuse", 1, 1, 1, 0);
+Material("wall", "specular", 0.2, 0.2, 0.1, 0.1);
+Material("wall", "power", 5);
+Material("default", "emissive", 0, 0, 0, 0);
+Material("default", "mipmaplodbias", -1);
+Material("default", "maxmiplevel", 0);
+Material("default", "mixmode", "blend");
+Material("default", "autolight", "false");
+Material("ground", "=", "default");
+Material("ground", "specular", 0.2, 0.2, 0.05, 0.1);
+Material("ground", "power", 3);
+Material("wall", "=", "default");
+Material("wall", "specular", 0.2, 0.2, 0.05, 0.1);
+Material("wall", "power", 3);
+
+function ApplyGlass(carName)
+	local s=carName.."\\glass";
+	if (carName=="furgon1") then
+		s=carName.."\\furgonglass";
+	end
+	
+	if (carName=="taxi") then
+		s=carName.."\\taxiglass";
+	end
+	
+	Material(s, "=", "default");
+	Material(s, "ambient", 0.4, 0.4, 0.4, 0.4);
+	Material(s, "specular", 1, 1, 1, 1);
+	Material(s, "power", 5);
+
+end
+
+carNames={"taxi",
+	"bus",
+	"furgon2",
+	"furgon",
+	"furgon1",
+	"tcar1",
+	"van1",
+	"tcar2",
+	"pikap",
+	"pikap2",
+	"tcar3",
+	"police"};
+for i=1, 12 do
+	ApplyGlass(carNames[i]);
+end
+
+Material("city\shop5", "=", "default");
+Material("city\shop5", "illumination", 0.9, 0.1, 0.9, 500);
+Material("terrain\city\detail", "=", "default");
+Material("terrain\city\detail", "mipmaplodbias", -50);
+Material("lightcone", "=", "default");
+Material("lightcone", "mixmode", "add");
+Material("lightcone", "specular", 0, 0, 0, 0);
+Material("lightcone", "power", 0);
+Material("uzi\uzi", "=", "default");
+Material("uzi\uzi", "specular", 0.5, 0.5, 0.5, 0.5);
+Material("uzi\uzi", "power", 5.9);
+Material("assembletool\assemble", "=", "default");
+Material("assembletool\assemble", "specular", 0.5, 0.5, 0.5, 0.5);
+Material("assembletool\assemble", "power", 5.9);
+Material("pistol\pistol11", "=", "default");
+Material("pistol\pistol11", "specular", 0.5, 0.5, 0.5, 0.5);
+Material("pistol\pistol11", "power", 5.9);
+Material("concept2\body", "=", "default");
+Material("concept2\body", "envmapname", "Sky\skatemadness\SkyEnv");
+Material("concept2\body", "reflectmapname", "concept2\bodyenvmap");
+Material("concept2\body", "envmapcolor", 0, 0, 0, 0);
+Material("concept2\body", "specular", 0.2, 0.2, 0.2, 0.2);
+Material("concept2\body", "power", 50.9);
+Material("pikap\pikap", "=", "default");
+Material("pikap\pikap", "envmapcolor", 0, 0, 0, 0);
+Material("pikap\pikap", "paintmapname", "pikap\pikap1");
+Material("concept\body", "=", "default");
+Material("concept\body", "envmapname", "Sky\skatemadness\SkyEnv");
+Material("concept\body", "reflectmapname", "concept\bodyenvmap");
+Material("concept\body", "envmapcolor", 0, 0, 0, 0);
+Material("concept\body", "specular", 0.2, 0.2, 0.2, 0.2);
+Material("concept\body", "power", 50.9);
+Material("cars\BODY_02", "=", "default");
+Material("cars\BODY_02", "envmapname", "Sky\skatemadness\SkyEnv");
+Material("cars\BODY_02", "reflectmapname", "cars\BODY_02_envmap");
+Material("cars\BODY_02", "envmapcolor", 0, 0, 0, 0);
+Material("cars\BODY_02", "specular", 0.9, 0.4, 0.9, 0.4);
+Material("cars\BODY_02", "power", 20.9);
+Material("cars\BODY_03", "=", "default");
+Material("cars\BODY_03", "envmapname", "Sky\skatemadness\SkyEnv");
+Material("cars\BODY_03", "reflectmapname", "cars\BODY_03_envmap");
+Material("cars\BODY_03", "envmapcolor", 0, 0, 0, 0);
+Material("cars\BODY_03", "specular", 0.9, 0.4, 0.4, 0.4);
+Material("cars\BODY_03", "power", 30.9);
+Material("cars\BODY_04", "=", "default");
+Material("cars\BODY_04", "envmapname", "Sky\skatemadness\SkyEnv");
+Material("cars\BODY_04", "reflectmapname", "cars\BODY_04_envmap");
+Material("cars\BODY_04", "envmapcolor", 0, 0, 0, 0);
+Material("cars\BODY_04", "specular", 0.8, 0.8, 0.8, 0.8);
+Material("cars\BODY_04", "power", 20.9);
+Material("cars\BODY_05", "=", "default");
+Material("cars\BODY_05", "envmapname", "Sky\skatemadness\SkyEnv");
+Material("cars\BODY_05", "reflectmapname", "cars\BODY_05_envmap");
+Material("cars\BODY_05", "envmapcolor", 0, 0, 0, 0);
+Material("cars\BODY_05", "specular", 0.4, 0.4, 0.9, 0.4);
+Material("cars\BODY_05", "power", 30.9);
+Material("cars\BODY_06", "=", "default");
+Material("cars\BODY_06", "envmapname", "Sky\skatemadness\SkyEnv");
+Material("cars\BODY_06", "reflectmapname", "cars\BODY_06_envmap");
+Material("cars\BODY_06", "envmapcolor", 0, 0, 0, 0);
+Material("cars\BODY_06", "specular", 0.9, 0.4, 0.4, 0.4);
+Material("cars\BODY_06", "power", 30.9);
+Material("cars\BODY_07", "=", "default");
+Material("cars\BODY_07", "envmapname", "Sky\skatemadness\SkyEnv");
+Material("cars\BODY_07", "reflectmapname", "cars\BODY_07_envmap");
+Material("cars\BODY_07", "envmapcolor", 0, 0, 0, 0);
+Material("cars\BODY_07", "specular", 0.9, 0.9, 0.4, 0.4);
+Material("cars\BODY_07", "power", 30.9);
+

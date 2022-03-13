@@ -1,0 +1,257 @@
+function head_InitialUpdate(this)
+	AddRecalcHierarchy(this, "LeftEyeMuscle", "Bip01 Head");
+	AddRecalcHierarchy(this, "RightEyeMuscle", "Bip01 Head");
+	AddRecalcHierarchy(this, "RightCheek", "Bip01 Head");
+	AddRecalcHierarchy(this, "LeftCheek", "Bip01 Head");
+	AddRecalcHierarchy(this, "LowerLip", "Bip01 Head");
+	AddRecalcHierarchy(this, "UpperLip", "Bip01 Head");
+	AddRecalcHierarchy(this, "LeftEyeBrow", "Bip01 Head");
+	AddRecalcHierarchy(this, "RightEyeBrow", "Bip01 Head");
+	x1, y1, z1, x2, y2, z2=GetBox(this);
+	SetNumber(this, "height", 30);
+	SetNumber(this, "lip_speed", 8);
+
+end
+
+
+function head_setEyeAngles(this, ax, ay)
+	if (ax<(-PI / 8)) then
+		ax=(-PI / 8);
+	end
+	
+	if (ax>(PI / 8)) then
+		ax=(PI / 8);
+	end
+	
+	if (ay<(-PI / 7)) then
+		ay=(-PI / 7);
+	end
+	
+	if (ay>(PI / 7)) then
+		ay=(PI / 7);
+	end
+	
+	SetNumber(this, "eye_ax", ax);
+	SetNumber(this, "eye_ay", ay);
+
+end
+
+
+function head_setMouthAngles(this, upperLip, lowerLip, lowerLipY)
+	if (upperLip<(-PI / 32)) then
+		upperLip=(-PI / 32);
+	end
+	
+	if (upperLip>0) then
+		upperLip=0;
+	end
+	
+	if (lowerLip<0) then
+		lowerLip=0;
+	end
+	
+	if (lowerLip>(PI / 32)) then
+		lowerLip=(PI / 32);
+	end
+	
+	if (lowerLipY<(-PI / 32)) then
+		lowerLipY=(-PI / 32);
+	end
+	
+	if (lowerLipY>(PI / 32)) then
+		lowerLipY=(PI / 32);
+	end
+	
+	SetNumber(this, "lip_ax", upperLip);
+	SetNumber(this, "lip_ay", lowerLip);
+	SetNumber(this, "lip_az", lowerLipY);
+
+end
+
+
+function head_setEyebrows(this, leftbrow, rightbrow, ang)
+	if (leftbrow<-1) then
+		leftbrow=-1;
+	end
+	
+	if (leftbrow>1) then
+		leftbrow=1;
+	end
+	
+	if (rightbrow<-1) then
+		rightbrow=-1;
+	end
+	
+	if (rightbrow>1) then
+		leftbrow=1;
+	end
+	
+	if (ang<(-PI / 32)) then
+		ang=(-PI / 32);
+	end
+	
+	if (ang>(PI / 32)) then
+		ang=(PI / 32);
+	end
+	
+	SetNumber(this, "leftbrow", leftbrow);
+	SetNumber(this, "rightbrow", rightbrow);
+	SetNumber(this, "browang", ang);
+
+end
+
+
+function head_setMouthOpen(this, mopen)
+	if (mopen<0) then
+		mopen=0;
+	end
+	
+	if (mopen>1) then
+		mopen=1;
+	end
+	
+	head_setMouthAngles(this, ((-PI / 32) * mopen), ((PI / 32) * mopen), 0);
+
+end
+
+
+function head_setSmile(this, smile)
+	if (smile<-1) then
+		smile=-1;
+	end
+	
+	if (smile>1) then
+		smile=1;
+	end
+	
+	SetNumber(this, "smile", smile);
+
+end
+
+
+function head_setAngles(this, ax, ay, az)
+	if (ax<(-PI / 8)) then
+		ax=(-PI / 8);
+	end
+	
+	if (ax>(PI / 8)) then
+		ax=(PI / 8);
+	end
+	
+	if (ay<(-PI / 7)) then
+		ay=(-PI / 7);
+	end
+	
+	if (ay>(PI / 7)) then
+		ay=(PI / 7);
+	end
+	
+	if (az<(-PI / 7)) then
+		az=(-PI / 7);
+	end
+	
+	if (az>(PI / 7)) then
+		az=(PI / 7);
+	end
+	
+	SetNumber(this, "neck_ax", ax);
+	SetNumber(this, "neck_ay", ay);
+	SetNumber(this, "neck_az", az);
+
+end
+
+
+function head_Update(this)
+	local validate=1;
+	local ax=IDT_Nil;
+	local ay=IDT_Nil;
+	local az=IDT_Nil;
+	local c_ax=IDT_Nil;
+	local c_ay=IDT_Nil;
+	local c_az=IDT_Nil;
+	local height=GetNumber(this, "height");
+	ax=GetNumber(this, "eye_ax");
+	ay=GetNumber(this, "eye_ay");
+	c_ax=GetNumber(this, "eye_cax");
+	c_ay=GetNumber(this, "eye_cay");
+	if (abs((ax - c_ax))<=0.01) then
+		if (abs((ay - c_ay))>0.01) then
+			c_ax=(c_ax + ((ax - c_ax) / 4));
+			c_ay=(c_ay + ((ay - c_ay) / 4));
+			AddBoneTrans(this, "LeftEyeMuscle", 0, 0, 0, 0, c_ax, c_ay);
+			AddBoneTrans(this, "RightEyeMuscle", 0, 0, 0, 0, c_ax, c_ay);
+			SetNumber(this, "eye_cax", c_ax);
+			SetNumber(this, "eye_cay", c_ay);
+		end
+		
+		ax=GetNumber(this, "neck_ax");
+		ay=GetNumber(this, "neck_ay");
+		az=GetNumber(this, "neck_az");
+		c_ax=GetNumber(this, "neck_cax");
+		c_ay=GetNumber(this, "neck_cay");
+		c_az=GetNumber(this, "neck_caz");
+		if (abs((ax - c_ax))<=0.01) then
+			if (abs((ay - c_ay))<=0.01) then
+				if (abs((az - c_az))>0.01) then
+					c_ax=(c_ax + ((ax - c_ax) / 32));
+					c_ay=(c_ay + ((ay - c_ay) / 32));
+					c_az=(c_az + ((az - c_az) / 32));
+					AddBoneTrans(this, "Bip01 Head", 0, 0, 0, c_ay, c_az, c_ax);
+					AddBoneTrans(this, "Bip01 Head", 0, 0, 0, c_ay, c_az, c_ax);
+					SetNumber(this, "neck_cax", c_ax);
+					SetNumber(this, "neck_cay", c_ay);
+					SetNumber(this, "neck_caz", c_az);
+				end
+				
+				ax=GetNumber(this, "lip_ax");
+				ay=GetNumber(this, "lip_ay");
+				az=GetNumber(this, "lip_az");
+				c_ax=GetNumber(this, "lip_cax");
+				c_ay=GetNumber(this, "lip_cay");
+				c_az=GetNumber(this, "lip_caz");
+				local speed=GetNumber(this, "lip_speed");
+				c_ax=(c_ax + ((ax - c_ax) / speed));
+				c_ay=(c_ay + ((ay - c_ay) / speed));
+				c_az=(c_az + ((az - c_az) / speed));
+				SetNumber(this, "lip_cax", c_ax);
+				SetNumber(this, "lip_cay", c_ay);
+				SetNumber(this, "lip_caz", c_az);
+				AddBoneTrans(this, "LowerLip", 0, 0, ((height * c_ay) / 6), -c_ay, 0, c_az);
+				AddBoneTrans(this, "UpperLip", 0, 0, ((height * c_ax) / 10), -c_ax, 0);
+				local smile=GetNumber(this, "smile");
+				local csmile=GetNumber(this, "csmile");
+				csmile=(csmile + ((smile - csmile) / 32));
+				SetNumber(this, "csmile", csmile);
+				local dz=IDT_Nil;
+				local dx=IDT_Nil;
+				if (csmile>0) then
+					dz=((-height * csmile) / 80);
+				else
+					dz=((height * csmile) / 100);
+				end
+				
+				dx=((height * csmile) / 10);
+				AddBoneTrans(this, "RightCheek", dx, 0, dz);
+				AddBoneTrans(this, "LeftCheek", -dx, 0, dz);
+				local leftbrow=GetNumber(this, "leftbrow");
+				local cleftbrow=GetNumber(this, "cleftbrow");
+				cleftbrow=(cleftbrow + ((leftbrow - cleftbrow) / 32));
+				local rightbrow=GetNumber(this, "rightbrow");
+				local crightbrow=GetNumber(this, "crightbrow");
+				crightbrow=(crightbrow + ((rightbrow - crightbrow) / 32));
+				local browang=GetNumber(this, "browang");
+				local cbrowang=GetNumber(this, "cbrowang");
+				cbrowang=(cbrowang + ((browang - cbrowang) / 32));
+				SetNumber(this, "cleftbrow", cleftbrow);
+				SetNumber(this, "crightbrow", crightbrow);
+				SetNumber(this, "cbrowang", cbrowang);
+				AddBoneTrans(this, "LeftEyeBrow", 0, 0, ((-height * cleftbrow) / 32), 0, cbrowang);
+				AddBoneTrans(this, "RightEyeBrow", 0, 0, ((-height * crightbrow) / 32), 0, -cbrowang);
+				if (validate==1) then
+					SetFrame(this, (GetFrame(this) + 1));
+				end
+				
+
+end
+
+

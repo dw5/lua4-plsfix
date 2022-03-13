@@ -1,0 +1,259 @@
+MENU_NOTAVAILABLE="Nicht vorhanden in der Demo";
+MENU_YES="Ja";
+MENU_NO="Nein";
+MENU_HIGH="Hoch";
+MENU_MED="Mittel";
+MENU_LOW="Niedrig";
+MENU_APPLY="Zu verwenden";
+MENU_DETAIL="Detail: ";
+MENU_VIDEO="Grafik";
+MENU_FULLSCREEN="Vollbild:";
+SCANNING="Abtastung";
+BLOOD=0;
+QUIT_YES=74;
+QUIT_NO=78;
+RAMTHATCAR="Ramm es!";
+CONTROL_FORWARD="Vorw�rts";
+CONTROL_BACKWARD="R�ckw�rts";
+CONTROL_TURNLEFT="Nach links";
+CONTROL_TURNRIGHT="Nach rechts";
+CONTROL_HANDBRAKE="Handbremse";
+CONTROL_FIRE="Feuer/Kampf";
+CONTROL_ACTION="Aktion";
+CONTROL_BRIBE="Bestechen";
+CONTROL_ENGINE="Motor anlassen";
+MENU_CONTROLS="Steuerung";
+CONTROL_FPS="Kamera";
+CONTROL_MAP="Kartenzoom";
+CONTROL_ILLUMINATION="Scheinwerfer";
+LOGOTEXTURE="GUI\\logo";
+LOGOTEXTURE1="GUI\\logo1";
+BACK="Zur�ck";
+ABOUT="Mitwirkende";
+BONUSMISSION="Bonus";
+MISSION="Mission ";
+BESTRATING="Bestes Ergebnis: ";
+STEALTHMODE="Diebstahlmodus";
+STORYMODE="Story-Modus";
+SGAMMA="Gamma";
+SMUSIC="Musik";
+SSOUND="Sound";
+LAUNCH="Starten";
+MARKERINSTALLED="%d von 5 Markern angebracht!";
+RATINGBEST=" % - Bester! ";
+MISSIONCOMPLETE=" Mission abgeschlossen! ";
+YOURRATING="Dein Ergebnis: ";
+ONEMORECARLEFT="Es fehlt noch ein Auto! Schnell!";
+COOL="COOL!";
+COOLFIRSTCAR="Cool! Das ist das erste Auto";
+LEAVECAR="Gib das Auto zur�ck!";
+MISSIONFAILED="Mission fehlgeschlagen!";
+BUSTED="Du wurdest geschnappt!";
+KILLS=" %d von 30! ";
+DOUBLEKILL="Doppelte Beute!";
+STOLENCAR="Achtung! Die Polizei sucht dieses Auto!";
+HELP0="Halte 'E', um den Motor zu starten";
+HELP1="Dr�cke 'EINGABE', um einzusteigen";
+HELP2="Halte 'EINGABE', um Funkmarker anzubringen";
+HELP3="Halte 'EINGABE', um einen Reifen abzunehmen";
+HELP4="Dr�cke 'EINGABE', um einen Reifen in den LKW zu legen";
+HELP5="Dr�cke 'B', um zu bestechen";
+HELP6="Halte 'E', um den Code zu scannen,";
+HELP6A="wenn der Fahrer den Alarm ein- oder ausstellt";
+HELP7="Dr�cke 'EINGABE', auszusteigen";
+PRESSENTER="EINGABE dr�cken";
+SSTARTENGINE="Starte...";
+SDISALARM="Schalte Alarm aus...";
+DISALARMFAILED="Kann Alarm nicht ausschalten";
+DISALARMED="Alarm ist ausgeschaltet";
+SREMOVEWHEEL="Nehme ab...";
+SUSEPICKLOCK="�ffne...";
+SPUTMARKER="Bringe Marker an...";
+COOLFIRSTCAR="Cool! Erstes Auto! ";
+GREATONEMORECAR="Cool! Noch ein Auto!";
+NOTENOUGHMONEY="Du hast nicht genug Geld!";
+OUTOFFUEL="Benzin ist alle!";
+QUIT2MMENU="Zur�ck zum Hauptmen�? (J/N)";
+LOADING="Lade...";
+CLIP="Du hast Munition aufgenommen";
+HUNDRED="Du hast 100 $ aufgenommen";
+ADDUZI="Du hast eine Uzi aufgenommen";
+ADDPISTOL="Du hast eine Pistole aufgenommen";
+FIRSTKIT="Du hast einen Erste-Hilfe-Kasten aufgenommen";
+HEALTH="Gesundheit";
+FELONY="Straftat";
+DAMAGE="Schaden";
+NEWGAME="Neues Spiel";
+CONTINUEGAME="Weiter";
+OPTIONS="Optionen";
+QUIT="Ende";
+OUTOFLEVEL="Zur�ck in die Stadt!";
+PRESSBACKSPACE="Dr�cke BACKSPACE, um das Auto umzudrehen";
+PUTMARKER="MARKIERUNG SETZEN";
+BRIBE="BESTECHEN";
+HIDE="VERSTECKEN";
+OPENDOOR="T�R �FFNEN";
+CLOSEDOOR="T�R SCHLIESSEN";
+GETOUT="RAUS";
+TOGGLEILLUM="SCHEINWERFER";
+TOGGLESIREN="SIRENE";
+STARTENGINE="START";
+MUFFLEENGINE="D�MPFEN";
+CANTSTART=" Kann Motor nicht starten";
+TAXI="TAXI!!";
+GETIN="REIN";
+REMOVEWHEEL="REIFEN ENTFERNEN";
+LOADWHEEL="REIFEN AUFLADEN";
+DOORLOCKED="T�r ist verschlossen";
+DOORUNLOCKED="T�r ist offen";
+WHEELCOUNT="Geladene Reifen: %d";
+WHEELLOADED="Der Reifen ist aufgeladen.";
+E_COPYRIGHT1="\\I2005 (c) Alle Rechte vorbehalten\\i";
+E_COPYRIGHT2="\\IKozmogames Inc. - www.kozmogames.com\\i";
+
+function MissionShortInfo(misid, gamemode)
+	misid=MissionRemap(misid);
+	if (misid==3) then
+		do return "Verdien 350$ als Taxifahrer" end;
+		
+	end
+	
+	if (misid==9) then
+		do return "Bring den Chinesen nach Chinatown" end;
+		
+	end
+	
+	if (misid==2) then
+		do return "Bring Funkmarker an den Polizeiautos an" end;
+		
+	end
+	
+	if (misid==0) then
+		do return "Klau 16 Reifen von parkenden Autos" end;
+		
+	end
+	
+	if (misid==4) then
+		do return "Finde und stehle Luxusauto" end;
+		
+	end
+	
+	if (misid==7) then
+		do return "Schlage die Chinesin im Rennen" end;
+		
+	end
+	
+	if (misid==1) then
+		do return "Stehle 3 Polizeiautos" end;
+		
+	end
+	
+	if (misid==6) then
+		do return "Bring LKW sicher an sein Ziel" end;
+		
+	end
+	
+	if (misid==5) then
+		do return "Fang den Killer der Chinesin" end;
+		
+	end
+	
+	if (misid==10) then
+		do return "Zerst�re feindliche Gang" end;
+		
+	end
+	
+	if (misid==11) then
+		do return "Bonus: Freie Mission" end;
+		
+	end
+	
+	return "";
+	
+
+end
+
+
+function MissionStealthInfo(misid, gamemode)
+	StartIntro("Sounds\rap"..random(1, 2)..".wav", StealthArg(1), "intro\slippy", IDT_Nil, "Es gibt eine Sonderbestellung f�r dieses Luxusauto. Du musst dieses Auto finden und stehlen und es dann zum Versteck im Schrottplatz bringen. Wird nicht leicht, es zu finden, aber es wurde zuletzt im gelben Bereich auf deiner Karte gesehen. Du hast nur 20 Minuten Zeit. Mit 'M' wechselst du den Kartenzoom. Findest du es, dann benutz den Alarmscanner (Taste E). Damit �ffnest du das Auto schnell und leise. Pass auf die ganzen Bullen in der Stadt auf.", 10, 10, 10);
+
+end
+
+
+function MissionInfo(misid, gamemode)
+	misid=MissionRemap(misid);
+	if (misid==3) then
+		StartIntro("Sounds\rap1.wav", "intro\taxi", "intro\slippy", IDT_Nil, "Du startest das Spiel als Taxifahrer. Du musst in 15 Minuten 350$ verdienen. Je schneller du das Geld verdienst, desto besser dein Ergebnis. Vergiss nicht nachzutanken, bevor das dein Tank leer ist. Pass immer auf die Bullen auf!", 0, 0, 100);
+	end
+	
+	if (misid==9) then
+		StartIntro("Sounds\rap2.wav", "intro\chinatown", "intro\slippy", "intro\mob", "Als du eines Tages von der Arbeit zur�ck kommst, n�hert sich dir auf der Stra�e ein gut angezogener Chinese. Er bietet dir einen Job als sein Fahrer und Bodyguard an. Am n�chsten Tag sollst du ihn vom Friedhof abholen und auf die andere Seite der Stadt nach Chinatown bringen.", 50, 50, 50);
+	end
+	
+	if (misid==2) then
+		StartIntro("Sounds\rap1.wav", "intro\bar", "intro\slippy", "intro\mob2", "Nachdem du das Leben deines geheimnisvollen Chefs gerettet hast, entschlie�t er sich zu einem kleinen Plausch. Er verr�t dir, dass er einer der gr��ten Gangsterbosse der Stadt ist. Da du ihm das Leben gerettet hast, bietet er dir an, seiner Gang beizutreten. Dein erster Job ist, Funkmarker an 5 Polizeiautos in der Stadt anzubringen. Installiere die Markierungen hinten an den Polizeiautos am Kofferraum. Sei sehr vorsichtig dabei und lass dich nicht schnappen. Nachdem du die Markierungen angebracht hast, kannst du die Polizeiautos auf deinem Radar verfolgen.", 50, 50, 50);
+	end
+	
+	if (misid==0) then
+		StartIntro("Sounds\rap2.wav", "intro\bar", "intro\slippy", "intro\mob", "Du erkennst bald, dass deine Mafia-Freunde in gro�em Stil Autos verschieben. Sie wollen deine F�higkeiten in der hohen Kunst des Autodiebstahls testen. Deine erste Aufgabe ist einfach, du musst aber vorsichtig sein. Wenn dich die Polizei sieht, ist deine Mission gescheitert. Du hast 15 Minuten, um 16 Reifen von parkenden Autos zu klauen. Benutze den Schraubenschl�ssel (Taste 3), um die Reifen zu entfernen und lade die Reifen in den Kofferraum. Nach Abschluss des Jobs kehrst du zum Anh�nger zur�ck.", 50, 50, 50);
+	end
+	
+	if (misid==1) then
+		StartIntro("Sounds\rap2.wav", "intro\bar", "intro\slippy", "intro\mob", "Die Mafiosi brauchen schnell einige Polizeiautos! Du hast 15 Minuten, um 3 Polizeiautos zu stehlen. Such nach geparkten Autos und brech mit dem Dietrich in die Autos ein. ", 50, 50, 50);
+	end
+	
+	if (misid==4) then
+		STEALTHID=1;
+		MissionStealthInfo(0, 1);
+	end
+	
+	if (misid==7) then
+		StartIntro("Sounds\rap1.wav", "intro\race", "intro\slippy", IDT_Nil, "Als du mit dem gerade gestohlenen Luxuswagen herumfuhrst, hast du die Chinesin in einem coolen Auto gesehen. Scheinbar will Sie ein Rennen gegen dich fahren. Du musst sie im Rennen schlagen, denn du musst auch noch unbedingt nach Chinatown.", 0, 0, 0);
+	end
+	
+	if (misid==6) then
+		StartIntro("Sounds\rap1.wav", "intro\van", "intro\slippy", "intro\mob", "Du musst diesen Laster sicher an sein Ziel bringen. Du hast nur 5 Minuten und ein ganz gro�es Problem: Die Bullen sind hinter dir her und du sp�rst schon jetzt ihren hei�en Atem in deinem Nacken!", 20, 20, 20);
+	end
+	
+	if (misid==5) then
+		StartIntro("Sounds\rap2.wav", "intro\dead_girl", "intro\slippy", IDT_Nil, "Was f�r eine absolute Katastrophe! Die Chinesin war die Tochter vom Boss. Sie wurde umgebracht als du auf sie aufpassen solltest. Du steckst jetzt ziemlich tief drin! Nach einigen Tagen der Suche findest du den LKW-Fahrer, der sie umgebracht hat. Er ist nat�rlich der Boss einer rivalisierenden Gang. Um deinen Namen reinzuwaschen, musst du ihn jagen und t�ten.", 20, 20, 20);
+	end
+	
+	if (misid==10) then
+		StartIntro("Sounds\rap1.wav", "intro\slum", "intro\slippy2", "intro\braker", "Jetzt musst du die gesamte rivalisierende Gang zerst�ren. Jage sie in den Stra�en und zeig ihnen die Gerechtigkeit der Stra�e. Es sind 30 Leute, also hol sie dir! Ihre Strafe wird hart aber gerecht!", 20, 20, 20);
+	end
+	
+	if (misid==11) then
+		StartIntro("Sounds\rap2.wav", "intro\bar", "intro\slippy1", "intro\mob3", "Gl�ckwunsch! Du hast erfolgreich die gegnerische Gang zerst�rt. Die gesamte Stadt geh�rt dir! Big Boss hat dir als Belohnung die Schl�ssel zu allen gestohlenen Autos gegeben. Jetzt kannst du sie in der ganzen Stadt genie�en. Genie�e das Leben, das du dir als bester Autodieb der Welt verdient hast!", 20, 20, 20);
+	end
+	
+
+end
+
+
+function page_credits()
+	menu_displayBegin(300, 353);
+	menu_addMenuString("Mitwirkende", 1, 255, 255, 255);
+	menu_addMenuString(E_COPYRIGHT1, 0.5, 255, 255, 255);
+	menu_addMenuString(E_COPYRIGHT2, 0.5, 255, 255, 255);
+	menu_addMenuString("", 0.3, 255, 255, 100);
+	menu_addMenuString("Programmierung", 0.6, 255, 0, 0);
+	menu_addMenuString("Ilia Stepanov", 0.5, 255, 255, 255);
+	menu_addMenuString("", 0.3, 255, 255, 100);
+	menu_addMenuString("Grafik", 0.6, 255, 0, 0);
+	menu_addMenuString("Ilia Stepanov", 0.5, 255, 255, 255);
+	menu_addMenuString("Dmitri Lykov", 0.5, 255, 255, 255);
+	menu_addMenuString("", 0.3, 255, 255, 100);
+	menu_addMenuString("Musik", 0.6, 255, 0, 0);
+	menu_addMenuString("Michail Kostylev", 0.5, 255, 255, 255);
+	menu_addMenuString("", 0.3, 255, 255, 100);
+	menu_addMenuString("Besonderer Dank", 0.6, 255, 0, 0);
+	menu_addMenuString("Joel Breton", 0.5, 255, 255, 255);
+	menu_addMenuString("Olga Breton", 0.5, 255, 255, 255);
+	menu_addMenuString("", 0.8, 255, 255, 100);
+	menu_fontscale=0.8;
+	menu_addMenuItem(BACK);
+
+end
+
+
